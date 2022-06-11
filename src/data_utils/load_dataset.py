@@ -3,7 +3,7 @@ from typing import Union, List
 
 from lxml import etree
 
-from utils.paths import TEST_XML, TRAIN_DATA
+from utils.paths import DEV_XML, TEST_XML, TRAIN_DATA
 
 
 def load_train_data(train_data: Union[Path, str] = TRAIN_DATA) -> List[str]:
@@ -14,8 +14,8 @@ def load_train_data(train_data: Union[Path, str] = TRAIN_DATA) -> List[str]:
     return lines
 
 
-def load_test_xml(test_xml: Union[Path, str] = TEST_XML) -> List[str]:
-    print(f'Loading test data from: `{test_xml}`')
+def load_test_data(test_xml: Union[Path, str] = TEST_XML) -> List[str]:
+    print(f'Loading data from: `{test_xml}`')
     lines = []
     with open(test_xml, 'r', encoding='UTF8') as ds:
         text = ''.join(ds.readlines()[1:])
@@ -26,3 +26,7 @@ def load_test_xml(test_xml: Union[Path, str] = TEST_XML) -> List[str]:
                 lines.append(seg.text)
     print(f'Loaded {len(lines)} lines')
     return lines
+
+
+def load_dev_data(dev_xml: Union[Path, str] = DEV_XML) -> List[str]:
+    return load_test_data(dev_xml)
