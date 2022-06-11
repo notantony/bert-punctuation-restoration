@@ -5,7 +5,7 @@
 
 ### Install required packages using Pip.
 
-`pip install -m reqiurements.txt`
+`pip install -r reqiurements.txt`
 
 ### Configure Python interpreter path with the following line.
 
