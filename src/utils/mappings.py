@@ -19,4 +19,4 @@ PUNCT2NAME = {
     '?': '_QUESTION',
 }
 
-NAME2PUNCT = invert_mapping(NAME2ID)
+NAME2PUNCT = invert_mapping(PUNCT2NAME)
