@@ -35,8 +35,8 @@ class WindowDataset(torch.utils.data.Dataset):
         end_idx = start_idx + self.window_size
 
         return {
-            'x_tokens': self.x_tokens[start_idx: end_idx],
-            'y_tokens': self.y_tokens[start_idx: end_idx],
+            'x_tokens': torch.tensor(self.x_tokens[start_idx: end_idx], dtype=torch.long),
+            'y_tokens': torch.tensor(self.y_tokens[start_idx: end_idx], dtype=torch.long),
         }
 
     def __len__(self):
