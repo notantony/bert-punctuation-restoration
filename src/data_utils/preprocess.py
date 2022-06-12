@@ -15,6 +15,12 @@ def text2tokens(text: str, apply_preprocess: bool = False) -> List[str]:
     dropped_tokens = Counter()
     used_tokens = Counter()
 
+    def drop_quotes(text):
+        symbols_cnt = Counter(text)
+        dropped_tokens["'"] += symbols_cnt["'"]
+        dropped_tokens['"'] += symbols_cnt['"']
+        return text.replace("'", '').replace('"', '')
+
     def drop_unknown(token):
         if re.match(r'[^\w\d]+', token):
             if token not in PUNCT2NAME:
@@ -43,6 +49,7 @@ def text2tokens(text: str, apply_preprocess: bool = False) -> List[str]:
         else:
             yield token
 
+    text = drop_quotes(text)
     tokens = word_tokenizer.tokenize(text)
 
     if apply_preprocess:
