@@ -19,7 +19,7 @@ class DenseClassifier(nn.Module):
             nn.ReLU(),
         )
 
-    def forward(x):
+    def forward(self, x):
         return self.clf(x)
 
 
@@ -35,7 +35,7 @@ class BertClassifier(nn.Module):
         self.dropout = nn.Dropout(p=dropout)
         self.classifier_model = classifier_model
 
-    def forward(x):
+    def forward(self, x):
         print(type(x))
         print(x.shape)
         x = self.bert_model(input_ids=x).last_hidden_state
