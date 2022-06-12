@@ -46,9 +46,9 @@ def text_to_tokens(text, window_size):
 
     padding_size = window_size // 2
     padding_prefix = [padding_el for _ in range(padding_size)]
+    padding_suffix = [padding_el for _ in range(window_size)]
 
-    return padding_prefix + encoded_input["input_ids"] + padding_prefix, padding_prefix + label + padding_prefix
-    # return padding_prefix + [101] + tokens + [102] + padding_prefix, padding_prefix + label + padding_prefix
+    return padding_prefix + encoded_input["input_ids"] + padding_suffix, padding_prefix + label + padding_suffix
 
 
 def tokens_to_text(x, y):
