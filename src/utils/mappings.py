@@ -5,7 +5,7 @@ def invert_mapping(mapping: dict):
 
 NAME2ID = {
     '_EMPTY': 0,
-    '_PERIOD' : 1,
+    '_PERIOD': 1,
     '_COMMA': 2,
     '_QUESTION': 3,
     '_PAD': 4,
