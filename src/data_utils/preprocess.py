@@ -34,6 +34,10 @@ def text2tokens(text: str, apply_preprocess: bool = False) -> List[str]:
     def preprocess_punct(token):
         if token == '!' or token == ';':
             yield '.'
+        elif token == '---':
+            yield ','
+        elif token == ':':
+            yield '.'
         elif token == '--':
             yield ','
         elif token == ',--':
