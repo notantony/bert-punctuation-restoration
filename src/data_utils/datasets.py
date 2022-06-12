@@ -11,11 +11,11 @@ class WindowDataset(torch.utils.data.Dataset):
         y_tokens: list,
         window_size: int = 512,
         step: Union[int, float] = 0.5,
-        pad_size: Optinal[int] = None,
-        pad_item: Any = None,
         ):
 
         super().__init__()
+
+        assert len(x_tokens) == len(y_tokens), f'Token lists must be same the length: x: {len(x_tokens)}, y: {len(y_tokens)}'
 
         if isinstance(step, float):
             step = int(window_size * step)
@@ -29,16 +29,15 @@ class WindowDataset(torch.utils.data.Dataset):
         self.x_tokens = x_tokens
         self.y_tokens = y_tokens
 
-        remaining_shift = window_size % step
-        self.pad_size = window_size - remaining_shift
 
     def __getitem__(self, idx):
-        start_idx = idx * self.window_size + self.
+        start_idx = idx * self.step
+        end_idx = start_idx + self.window_size
 
         return {
-            'x_tokens': self.x_tokens[idx * self.window_size + ], 
-            'y_tokens': self.y_tokens[idx]
+            'x_tokens': self.x_tokens[start_idx: end_idx],
+            'y_tokens': self.y_tokens[start_idx: end_idx],
         }
 
     def __len__(self):
-        return len(self.x_sents)
+        return (len(self.x_tokens) - self.step) // self.step
