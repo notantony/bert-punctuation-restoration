@@ -38,6 +38,8 @@ def text2tokens(text: str, apply_preprocess: bool = False) -> List[str]:
             for c in token:
                 if token in PUNCT2NAME:
                     yield token
+                else:
+                    dropped_tokens.update([token])
         else:
             yield token
 
