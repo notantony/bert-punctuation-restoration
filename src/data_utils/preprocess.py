@@ -1,7 +1,7 @@
 import itertools
 import re
 from collections import Counter
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Union
 
 from nltk.tokenize.regexp import RegexpTokenizer
 
