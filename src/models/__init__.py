@@ -36,14 +36,8 @@ class BertClassifier(nn.Module):
         self.classifier_model = classifier_model
 
     def forward(self, x):
-        print(type(x))
-        print(x.shape)
         x = self.bert_model(input_ids=x).last_hidden_state
-        
         x = self.dropout(x)
-
-        print(type(x))
-        print(x.shape)
         x = self.classifier_model(x)
         return x
 
