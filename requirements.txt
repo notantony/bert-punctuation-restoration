@@ -1,6 +1,7 @@
 lxml~=4.9.0
 gdown~=4.4.0
-numpy~=1.22.4
+numpy
 torch~=1.11.0
 transformers~=4.19.4
 tqdm~=4.64.0
+torchinfo
