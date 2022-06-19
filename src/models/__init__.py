@@ -65,3 +65,10 @@ def load_bert_classifier(
         raise ValueError(f'Unexpected classifier name: {classifier_name}')
 
     return BertClassifier(bert, clf, dropout=bert_emb_dropout)
+
+
+def get_model_by_name(name: str) -> torch.nn.Module:
+    if name == 'base-256':
+        return load_bert_classifier('base-base-uncased', 'dense-256')
+    else:
+        raise ValueError('Unknown model name')
