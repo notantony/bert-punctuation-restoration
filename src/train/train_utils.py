@@ -24,9 +24,9 @@ def prepare_dataloader(lines: List[str], window_size: int = 512, train: bool = T
     print(f'Dataset length: {len(ds)}')
     
     if train:
-        dl = DataLoader(train_ds, shuffle=True, batch_size=8, num_workers=2, drop_last=False, collate_fn=collate)
+        dl = DataLoader(ds, shuffle=True, batch_size=8, num_workers=2, drop_last=False, collate_fn=collate)
     else:
-        dl = DataLoader(dev_ds, shuffle=False, batch_size=8, num_workers=2, drop_last=False, collate_fn=collate)
+        dl = DataLoader(ds, shuffle=False, batch_size=8, num_workers=2, drop_last=False, collate_fn=collate)
     print(f'Total {len(iter(dl))} batches')
     return dl
 
