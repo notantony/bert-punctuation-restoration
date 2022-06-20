@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 
 from data_utils.datasets import WindowDataset
 from data_utils.load_dataset import load_train_data, load_dev_data, load_test_data
+from data_utils.preprocess import preprocess
 from data_utils.tokenizer import text_to_tokens
 
 
