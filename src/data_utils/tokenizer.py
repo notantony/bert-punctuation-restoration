@@ -60,9 +60,12 @@ def tokens_to_text(x, y):
     y = y[window_size // 2 + 1: -window_size // 2 - 1]
     res_tokens = []
 
-    for i in range(len(x)):
+    n = len(x)
+    for i in range(n):
         res_tokens.append(x[i])
         p = y[i]
+        if i < n - 1 and tokenizer.decode(x[i + 1]).startswith("##"):
+            continue
         if p in ID2BERT_ID:
             res_tokens.append(ID2BERT_ID[p])
 

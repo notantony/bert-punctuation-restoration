@@ -21,7 +21,7 @@ def predict(model, dl, device):
     ys = []
     previous_suffix = None
     with torch.no_grad():
-        for x_batch, y_batch in tqdm(dl):
+        for x_batch, _ in tqdm(dl):
             x_batch = x_batch.to(device)
             out = F.softmax(model(x_batch), dim=2)
 
@@ -71,3 +71,7 @@ if __name__ == '__main__':
     dl = DataLoader(dev_ds, shuffle=False, batch_size=8, num_workers=1, drop_last=False, collate_fn=collate)
 
     xs, ys = predict(model, dl, device)
+    print(xs)
+    print(ys)
+    print(len(xs))
+    print(len(ys))
