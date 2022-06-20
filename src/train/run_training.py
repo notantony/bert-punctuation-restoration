@@ -3,11 +3,11 @@ from torch import nn
 from tqdm import tqdm
 
 from models import get_model_by_name, load_bert_classifier
+from train.utils import get_train_dev
+from train.metrics import MetricsMonitor
 from utils import set_seed, get_default_device
 from utils.mappings import NAME2ID
 
-from .utils import get_train_dev
-from .metrics import MetricsMonitor
 
 
 def train(
