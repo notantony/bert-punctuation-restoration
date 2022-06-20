@@ -5,6 +5,8 @@ This project mainly based on the paper [1], trying to reproduce some of the resu
 ## Usage
 
 ### Environment setup
+Tested on Python 3.9.12.
+
 Install required packages using Pip.\
 `pip install -r reqiurements.txt`
 
