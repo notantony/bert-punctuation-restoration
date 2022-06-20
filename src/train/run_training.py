@@ -103,7 +103,7 @@ def main():
     device = get_default_device()
     train_dl, dev_dl = get_train_dev()
 
-    model = load_bert_classifier('base-256')
+    model = get_model_by_name('base-256')
 
     loss_fn = nn.CrossEntropyLoss(ignore_index=NAME2ID['_PAD'])
 
