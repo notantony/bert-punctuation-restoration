@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List, Optional
 
 import matplotlib.pyplot as plt
-
+import numpy as np
 from sklearn.metrics import confusion_matrix, f1_score, accuracy_score, classification_report
 from IPython.display import clear_output
 
