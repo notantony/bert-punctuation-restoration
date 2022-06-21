@@ -48,6 +48,8 @@ class MetricsMonitor:
         os.makedirs(self.target_dir, exist_ok=False)
 
     def update_quality(self, y_true, y_pred):
+        y_true = np.asarray(y_true)
+        y_pred = np.asarray(y_pred)
         confusion_labels = [self.label_names[i] for i in self.labels_no_padding]
 
         self.report = str(confusion_labels) + '\n' + \
