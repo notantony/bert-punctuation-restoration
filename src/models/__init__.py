@@ -1,6 +1,12 @@
+from typing import Union, Optional
+from pathlib import Path
+
 import torch
 import transformers
 from torch import nn
+
+from utils import get_default_device
+from utils.paths import MODELS_DIR
 
 
 class DenseClassifier(nn.Module):
@@ -72,3 +78,15 @@ def get_model_by_name(name: str) -> torch.nn.Module:
         return load_bert_classifier('bert-base-uncased', 'dense-256')
     else:
         raise ValueError('Unknown model name')
+
+
+def load_model_checkpoint(model_name: str, model_path: Optional[Union[Path, str]] = None) -> torch.nn.Module:
+    if model_path is None:
+        model_path = MODELS_DIR / f'{model_name}.pth'
+    model_path = str(model_path)
+
+    device = get_default_device()
+
+    model = get_model_by_name(model_name)
+    model.load_state_dict(torch.load(model_path, map_location=device))
+    return model

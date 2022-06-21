@@ -13,15 +13,18 @@ from models import load_bert_classifier
 from utils.mappings import NAME2ID
 
 
-def predict(model, dl, device):
+def predict(model, dl, device, return_true=False):
     model.to(device)
     model.eval()
 
     xs = []
     ys = []
+    y_true = []
     previous_suffix = None
     with torch.no_grad():
-        for x_batch, _ in tqdm(dl):
+        for x_batch, y_batch in tqdm(dl):
+            y_true.extend(y_batch.cpu().detach().numpy())
+
             x_batch = x_batch.to(device)
             out = F.softmax(model(x_batch), dim=2)
 
@@ -48,8 +51,12 @@ def predict(model, dl, device):
     # Remove padding elements in the suffix
     xs = [x for x in xs if x != NAME2ID["_PAD"]]
     ys = ys[:len(xs)]
-    print(len(xs))
-    print(len(ys))
+    y_true = y_true[:len(xs)]
+    # print(len(xs))
+    # print(len(ys))
+    assert len(xs) == len(ys) and len(xs) == len(y_true)
+    if return_true:
+        return xs, ys, y_true
     return xs, ys
 
 

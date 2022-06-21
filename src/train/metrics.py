@@ -64,15 +64,17 @@ class MetricsMonitor:
         if self.print_clear_output:
             clear_output()
         
-        print(f'Epoch {len(self.train_losses)}:')
+        if self.report is not None:
+            print(self.report)
 
         print(f'Validation:\nf1_score: {self.f1_scores[-1]}')
         print(f'accuracy: {self.acc_scores[-1]}')
-        print("_________")
-        print(f'train_loss = {self.train_losses[-1]}, val_loss = {self.val_losses[-1]}')
 
-        print(self.report)
+        if len(self.train_losses) > 0:
+            print(f'Epoch {len(self.train_losses)}:')
+            print("_________")
+            print(f'train_loss = {self.train_losses[-1]}, val_loss = {self.val_losses[-1]}')
 
-        plt.plot(self.train_losses, label='train_loss')
-        plt.plot(self.val_losses, label='val_loss')
-        plt.show()
+            plt.plot(self.train_losses, label='train_loss')
+            plt.plot(self.val_losses, label='val_loss')
+            plt.show()
