@@ -12,7 +12,7 @@ def main():
     model = load_model_checkpoint(sys.argv[1])
     test_dl = get_test()
 
-    _xs, y_pred, y_true = predict(model, test_dl, device)
+    _xs, y_pred, y_true = predict(model, test_dl, device, return_true=True)
 
     label_names = list(sorted(NAME2ID.keys(), key=lambda k: NAME2ID[k]))
     metrics_monitor = MetricsMonitor(label_names, empty_id=NAME2ID['_EMPTY'], padding_id=NAME2ID['_PAD'])
