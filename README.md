@@ -2,6 +2,12 @@
 
 This project mainly based on the paper [1], trying to reproduce some of the results on TED Talks dataset.
 
+## Try it yourself
+
+Use this 
+[link](https://colab.research.google.com/drive/1pzFLkOchQLInQxbCPht8p6-vH4ZvofRn?usp=sharing)
+to run the sample notebook which demonstrates restoration.
+
 ## Usage
 
 ### Environment setup
