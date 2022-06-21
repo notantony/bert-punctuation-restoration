@@ -7,3 +7,5 @@ TEST_XML = DATA_DIR / 'IWSLT12.TALK.tst2010.en-fr.en.xml'
 DEV_XML = DATA_DIR / 'IWSLT12.TALK.dev2010.en-fr.en.xml'
 
 MODELS_DIR = Path('./models')
+
+RESULTS_DIR = Path('./results')
