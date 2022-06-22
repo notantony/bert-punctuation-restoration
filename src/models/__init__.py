@@ -30,6 +30,27 @@ class DenseClassifier(nn.Module):
         return self.clf(x)
 
 
+class LstmClassifier(nn.Module):
+    def __init__(
+        self,
+        input_dim: int = 768,
+        hidden_dim: int = 512,
+        n_classes: int = 5,
+        dropout: float = 0.2,
+    ):
+        super().__init__()
+        self.clf = nn.Sequential(
+            nn.LSTM(input_dim, hidden_dim, batch_first=True, bidirectional=True),
+            nn.Dropout(p=dropout),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, n_classes),
+            nn.ReLU(),
+        )
+
+    def forward(self, x):
+        return self.clf(x)
+
+
 class BertClassifier(nn.Module):
     def __init__(
         self,
@@ -66,7 +87,9 @@ def load_bert_classifier(
     if classifier_name == 'dense-256':
         clf = DenseClassifier(768, 256, n_classes=n_classes, dropout=clf_dropout)
     elif classifier_name == 'dense-1568':
-        clf = DenseClassifier(1568, 256, n_classes=n_classes, dropout=clf_dropout)
+        clf = DenseClassifier(768, 1568, n_classes=n_classes, dropout=clf_dropout)
+    elif classifier_name == 'lstm-512':
+        clf = LstmClassifier(768, 512, n_classes=n_classes, dropout=clf_dropout)
     else:
         raise ValueError(f'Unexpected classifier name: {classifier_name}')
 
@@ -76,6 +99,10 @@ def load_bert_classifier(
 def get_model_by_name(name: str) -> torch.nn.Module:
     if name == 'base-256':
         return load_bert_classifier('bert-base-uncased', 'dense-256')
+    elif name == 'base-1568':
+        return load_bert_classifier('bert-base-uncased', 'dense-1568')
+    elif name == 'base-lstm':
+        return load_bert_classifier('bert-base-uncased', 'lstm-512')
     else:
         raise ValueError('Unknown model name')
 
