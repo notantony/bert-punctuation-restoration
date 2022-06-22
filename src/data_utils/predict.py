@@ -23,13 +23,12 @@ def predict(model, dl, device, return_true=False):
     previous_suffix = None
     with torch.no_grad():
         for x_batch, y_batch in tqdm(dl):
-            y_true.extend(y_batch.cpu().detach().numpy().flatten())
-
             x_batch = x_batch.to(device)
             out = F.softmax(model(x_batch), dim=2)
 
             out = out.cpu().detach().numpy()
             x_batch = x_batch.cpu().detach().numpy()
+            y_batch = y_batch.cpu().detach().numpy()
 
             for i in range(len(out)):
                 b = out[i]
@@ -45,6 +44,7 @@ def predict(model, dl, device, return_true=False):
 
                 ys.extend(predictions)
                 xs.extend(x_batch[i][:window_half])
+                y_true.extend(y_batch[i][:window_half])
 
                 previous_suffix = b[window_half:]
 
