@@ -13,6 +13,61 @@ from models import load_bert_classifier
 from utils.mappings import NAME2ID
 
 
+def remove_suffix_padding(xs, ys, tys, return_true):
+    xs = [x for x in xs if x != NAME2ID["_PAD"]]
+    ys = ys[:len(xs)]
+    tys = tys[:len(xs)]
+
+    assert len(xs) == len(ys) and len(xs) == len(tys)
+
+    if return_true:
+        return xs, ys, tys
+    return xs, ys
+
+
+def predict_multiwindow(model, dl, device, windows_n=2, return_true=False):
+    model.to(device)
+    model.eval()
+
+    xs = []
+    ys = []
+    y_true = []
+    previous_batches = []
+    with torch.no_grad():
+        for x_batch, y_batch in tqdm(dl):
+            x_batch = x_batch.to(device)
+            out = F.softmax(model(x_batch), dim=2)
+
+            out = out.cpu().detach().numpy()
+            x_batch = x_batch.cpu().detach().numpy()
+            y_batch = y_batch.cpu().detach().numpy()
+
+            for i in range(len(out)):
+                b = out[i]
+                window_shift = len(b) // windows_n
+
+                if len(previous_batches) + 1 < windows_n:
+                    previous_batches.append(b)
+                    previous_batches = [b[window_shift:] for b in previous_batches]
+                    continue
+
+                current_prefix = b[:window_shift]
+                previous_windows = [b[:window_shift] for b in previous_batches]
+                if windows_n == 1:
+                    predictions = current_prefix
+                else:
+                    predictions = (np.sum(previous_windows, axis=0) + current_prefix) / windows_n
+                predictions = np.argmax(predictions, axis=1)
+
+                ys.extend(predictions)
+                xs.extend(x_batch[i][:window_shift])
+                y_true.extend(y_batch[i][:window_shift])
+                previous_batches = previous_batches[1:]
+                previous_batches = [b[window_shift:] for b in previous_batches]
+                previous_batches.append(b[window_shift:])
+
+    return remove_suffix_padding(xs, ys, y_true, return_true)
+
 def predict(model, dl, device, return_true=False):
     model.to(device)
     model.eval()
@@ -48,16 +103,7 @@ def predict(model, dl, device, return_true=False):
 
                 previous_suffix = b[window_half:]
 
-    # Remove padding elements in the suffix
-    xs = [x for x in xs if x != NAME2ID["_PAD"]]
-    ys = ys[:len(xs)]
-    y_true = y_true[:len(xs)]
-    print(len(xs))
-    print(len(ys))
-    assert len(xs) == len(ys) and len(xs) == len(y_true)
-    if return_true:
-        return xs, ys, y_true
-    return xs, ys
+    return remove_suffix_padding(xs, ys, y_true, return_true)
 
 
 def collate(items):
@@ -78,7 +124,12 @@ if __name__ == '__main__':
     dl = DataLoader(dev_ds, shuffle=False, batch_size=8, num_workers=1, drop_last=False, collate_fn=collate)
 
     xs, ys = predict(model, dl, device)
+    xs2, ys2 = predict_multiwindow(model, dl, device, 2)
     print(xs)
+    print(xs2)
     print(ys)
+    print(ys2)
     print(len(xs))
+    print(len(xs2))
     print(len(ys))
+    print(len(ys2))

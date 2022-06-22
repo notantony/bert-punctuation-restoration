@@ -40,4 +40,4 @@ class WindowDataset(torch.utils.data.Dataset):
         }
 
     def __len__(self):
-        return (len(self.x_tokens) - self.step) // self.step
+        return (len(self.x_tokens) - (self.window_size - self.step)) // self.step

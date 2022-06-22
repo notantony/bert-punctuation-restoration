@@ -38,13 +38,13 @@ def construct_label(text):
     return y
 
 
-def text_to_tokens(text, window_size):
+def text_to_tokens(text, window_size, window_n=2):
     bert_input = normalize_x(text)
     encoded_input = tokenizer(bert_input)
     # tokens = tokenizer.tokenize(bert_input)
     label = construct_label(text)
 
-    padding_size = window_size // 2
+    padding_size = window_size - window_size // window_n
     padding_prefix = [padding_el for _ in range(padding_size)]
     padding_suffix = [padding_el for _ in range(window_size)]
 

@@ -15,11 +15,11 @@ def collate(items):
     return x_batch, y_batch
 
 
-def prepare_dataloader(lines: List[str], window_size: int = 512, train: bool = True) -> DataLoader:
+def prepare_dataloader(lines: List[str], window_size: int = 512, window_n=2, train: bool = True) -> DataLoader:
     preprocessed = preprocess(lines)
-    xy_tokens = text_to_tokens(preprocessed, window_size=window_size)
+    xy_tokens = text_to_tokens(preprocessed, window_size=window_size, window_n=window_n)
     print(f'Total {len(xy_tokens[0])} tokens')
-    ds = WindowDataset(xy_tokens[0], xy_tokens[1], window_size=window_size)
+    ds = WindowDataset(xy_tokens[0], xy_tokens[1], window_size=window_size, step=window_size // window_n)
     print(f'Dataset length: {len(ds)}')
     
     if train:
@@ -41,8 +41,8 @@ def get_train_dev() -> Tuple[DataLoader, DataLoader]:
     return train_dl, dev_dl
 
 
-def get_test() -> DataLoader:
+def get_test(window_n=2) -> DataLoader:
     test_lines = load_test_data()
     print('Processing test data')
-    test_dl = prepare_dataloader(test_lines, train=False)
+    test_dl = prepare_dataloader(test_lines, window_n=window_n, train=False)
     return test_dl

@@ -72,7 +72,7 @@ class MetricsMonitor:
         self.train_losses.append(train_loss)
         self.val_losses.append(val_loss)
 
-    def print_report(self):
+    def print_report(self, print_figure=True):
         if self.print_clear_output:
             clear_output()
 
@@ -81,6 +81,9 @@ class MetricsMonitor:
 
         print(f'Validation:\nf1_score: {self.f1_scores[-1]}')
         print(f'accuracy: {self.acc_scores[-1]}')
+
+        if not print_figure:
+            return
 
         plt.figure(figsize=(8, 6))
         plt.grid(alpha=0.4)
