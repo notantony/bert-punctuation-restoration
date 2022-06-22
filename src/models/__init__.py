@@ -38,12 +38,13 @@ class LstmClassifier(nn.Module):
         dropout: float = 0.2,
     ):
         super().__init__()
-        self.rnn = nn.Sequential(
-            nn.LSTM(input_dim, hidden_dim, batch_first=True, bidirectional=True),
+        self.rnn = nn.LSTM(input_dim, hidden_dim, batch_first=True, bidirectional=True)
+
+        self.clf = nn.Sequential(
             nn.Dropout(p=dropout),
             nn.ReLU(),
+            nn.Linear(2 * hidden_dim, n_classes)
         )
-        self.clf = nn.Linear(2 * hidden_dim, n_classes)
 
     def forward(self, x):
         x, _ = self.rnn(x)
