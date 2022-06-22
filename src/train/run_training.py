@@ -107,7 +107,7 @@ def main():
     train_dl, dev_dl = get_train_dev()
 
     model = get_model_by_name(sys.argv[1])
-    max_epochs = get_model_by_name(sys.argv[2])
+    max_epochs = sys.argv[2]
 
     loss_fn = nn.CrossEntropyLoss(ignore_index=NAME2ID['_PAD'])
 
