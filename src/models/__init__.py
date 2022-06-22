@@ -23,7 +23,6 @@ class DenseClassifier(nn.Module):
             nn.Dropout(p=dropout),
             nn.ReLU(),
             nn.Linear(hidden_dim, n_classes),
-            nn.ReLU(),
         )
 
     def forward(self, x):
@@ -39,15 +38,15 @@ class LstmClassifier(nn.Module):
         dropout: float = 0.2,
     ):
         super().__init__()
-        self.clf = nn.Sequential(
+        self.rnn = nn.Sequential(
             nn.LSTM(input_dim, hidden_dim, batch_first=True, bidirectional=True),
             nn.Dropout(p=dropout),
             nn.ReLU(),
-            nn.Linear(hidden_dim, n_classes),
-            nn.ReLU(),
         )
+        self.clf = nn.Linear(2 * hidden_dim, n_classes)
 
     def forward(self, x):
+        x, _ = self.rnn(x)
         return self.clf(x)
 
 
