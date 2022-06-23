@@ -25,11 +25,11 @@ Download data using the script.\
 
 
 If needed, download trained models and place it into `./models`\
-Use one of the following links.
+
 | name  | Google Drive | description |
 |-------|--------------|------------|
-|`base-256`|  [link](https://drive.google.com/file/d/1-0WolA-FZVVo22ZEyFGDZfEnKXexK562/view?usp=sharing) | BERT-base-uncased + 2-layer dense classifier with 256 hidden dimensions on top| 
-
+|`base-256`|  [link](https://drive.google.com/file/d/1-0WolA-FZVVo22ZEyFGDZfEnKXexK562/view?usp=sharing) | BERT-base-uncased + 2-layer dense classifier with 256 hidden dimensions on top|
+|`base-lstm`| [link](https://drive.google.com/file/d/1SpKydxNqfS8dnHAvBsUUkjVl8hklcgnH/view?usp=sharing) | BERT-base-uncased + Bidirectional LSTM with 512 hidden dimensions on top |
 
 ### References
 1. Nagy, Attila, Bence Bial, and Judit Ács. "Automatic punctuation restoration with BERT models." arXiv preprint arXiv:2101.07343 (2021).
